@@ -1,5 +1,8 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -40,8 +43,22 @@ public class GeradoraDeFigurinhas {
         Rectangle2D retangulo = fontMetrics.getStringBounds(texto, graphics);
         int larguraTexto = (int) retangulo.getWidth();
         int posicaoTextoX = (largura - larguraTexto) / 2;
-        graphics.drawString(texto, posicaoTextoX, novaAltura - 100);
+        int posicaoTextoY = novaAltura - 100;
+        graphics.drawString(texto, posicaoTextoX, posicaoTextoY);
 
+        FontRenderContext fontRenderContext = graphics.getFontRenderContext();
+        var textLayout = new TextLayout(texto, fonte, fontRenderContext);
+        Shape outline = textLayout.getOutline(null);
+        AffineTransform transform = graphics.getTransform();
+        transform.translate(posicaoTextoX, posicaoTextoY);
+        graphics.setTransform(transform);
+
+        var outlineStroke = new BasicStroke(largura * 0.004f);
+        graphics.setStroke(outlineStroke);
+
+        graphics.setColor(Color.RED);
+        graphics.draw(outline);
+        graphics.setClip(outline);
 
         // Escrever a nova imagem em um arquivo
 

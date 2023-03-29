@@ -37,8 +37,8 @@ public class Main {
             ///"\u001B[1m Título: \u001B[m%s%n",
 
             InputStream InputStream = new URL(urlImagem).openStream();
-            String nomeArquivo = "saida/" +  titulo + ".png";
-
+            //String nomeArquivo = "saida/" +  titulo + ".png";
+            String nomeArquivo = "saida/" + titulo.replace(":", "-")  + ".png";
 
             geradora.cria(InputStream, nomeArquivo);
 
