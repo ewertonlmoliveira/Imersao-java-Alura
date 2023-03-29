@@ -1,4 +1,7 @@
+import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -22,17 +25,34 @@ public class Main {
         List<Map<String, String>> listaDeFilmes = parser.parse(body);
 
         // exibir e manipular os dados
+
+        var diretorio = new File("saida/");
+        diretorio.mkdir();
+
+        var geradora = new GeradoraDeFigurinhas();
         for (Map<String, String> filme: listaDeFilmes
              ) {
-            System.out.printf("\u001B[1m Título: \u001B[m%s%n", filme.get("title"));
-            System.out.println(filme.get("image"));
-            double roundedRating = Double.parseDouble(filme.get("imDbRating"));
-            String starUnicode = "\u2B50";
-            for (int i = 1; i < roundedRating; i++) {
-                System.out.print(starUnicode);
-            }
-            System.out.println("["+roundedRating+"]");
+            String urlImagem = filme.get("image");
+            String titulo = filme.get("title");
+            ///"\u001B[1m Título: \u001B[m%s%n",
+
+            InputStream InputStream = new URL(urlImagem).openStream();
+            String nomeArquivo = "saida/" +  titulo + ".png";
+
+
+            geradora.cria(InputStream, nomeArquivo);
+
+            System.out.println(titulo);
             System.out.println();
+
+            //System.out.println(filme.get("image"));
+            //double roundedRating = Double.parseDouble(filme.get("imDbRating"));
+            //String starUnicode = "\u2B50";
+            //for (int i = 1; i < roundedRating; i++) {
+                //System.out.print(starUnicode);
+            //}
+            //System.out.println("["+roundedRating+"]");
+            //System.out.println();
         }
     }
 }
