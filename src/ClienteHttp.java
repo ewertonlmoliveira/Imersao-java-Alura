@@ -17,8 +17,8 @@ public class ClienteHttp {
             String body = response.body();
             return body;
 
-        } catch (IOException | InterruptedException ex) {
-            throw new RuntimeException(ex);
+        } catch (Exception ex) {
+            throw new ClienteHttException ("Erro ao consultar a URL. :( ");
         }
     }
 }

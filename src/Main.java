@@ -7,23 +7,11 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        // fazer uma conexão HTTPe buscar os top250 filmes
-
-        //String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-        //ExtratorDeConteudo extrator = new ExtratorDeConteudoDoIMDB() {
-            //@Override
-            //public List<Conteudo> extraiConteudos(String json) {
-                //return null;
-            //}
-        //};
-
         String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/NASA-APOD-JamesWebbSpaceTelescope.json";
         ExtratorDeConteudo extrator = new ExtratorDeConteudoDaNasa();
 
         var http = new ClienteHttp();
         String json = http.buscaDados(url);
-
-        // exibir e manipular os dados
 
         var diretorio = new File("saida2/");
         diretorio.mkdir();
@@ -37,12 +25,12 @@ public class Main {
 
             Conteudo conteudo = conteudos.get(i);
 
-            InputStream InputStream = new URL(conteudo.getUrlImagem()).openStream();
-            String nomeArquivo = "saida2/" + conteudo.getTitulo().replace(":", "-") + ".png";
+            InputStream InputStream = new URL(conteudo.urlImagem()).openStream();
+            String nomeArquivo = "saida2/" + conteudo.titulo().replace(":", "-") + ".png";
 
             geradora.cria(InputStream, nomeArquivo);
 
-            System.out.println(conteudo.getTitulo());
+            System.out.println(conteudo.titulo());
             System.out.println();
 
             //System.out.println(conteudo.get("image"));
